@@ -1,20 +1,23 @@
 import React from 'react'
+import { CountryContainer, CountryName, Paragraph } from '../styles/Country.style'
+import { H3 } from '../styles/SearchBar.Style'
 
-export default function Country({ name, capital, continent, languages, emoji }) {
+export default function Country({ name, capital, continent, languages, emoji, currency }) {
   return (
-    <div>
-        <div>
-          <div>{emoji}</div>
-          <h3>{name}</h3>
-        </div>
-        <p>Capital: {capital}</p>
+    <CountryContainer>
+        <CountryName>
+          <H3>{name}</H3>
+          <Paragraph type="emoji">{emoji}</Paragraph>
+        </CountryName>
+        <Paragraph type="description">Capital: {capital}</Paragraph>
         <div>
           {
             languages === undefined ?
-              <p>Continent: {continent.name}</p> :
-              <p>Languages: {languages?.map(language => language.name).join(' - ')}</p>
+              <Paragraph type="description">Continent: {continent.name}</Paragraph> :
+              <Paragraph type="description">Languages: {languages?.map(language => language.name).join(' - ')}</Paragraph>
           }
         </div>
-    </div>
+        <Paragraph type="description">Currency: {currency?.split(',').join(' ')}</Paragraph>
+    </CountryContainer>
   )
 }

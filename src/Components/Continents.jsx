@@ -1,11 +1,12 @@
 import React from 'react'
+import { CountriesContainer } from '../styles/Countries.style'
 import Country from './Country'
 
 export default function Continets({  allCountries }) {
 
 
   return (
-  <div>
+  <CountriesContainer>
       {
         allCountries && allCountries?.map(country => (
           <Country
@@ -13,10 +14,11 @@ export default function Continets({  allCountries }) {
             name={country.name}
             capital={country.capital}
             languages={country.languages}
+            currency={country.currency}
             emoji={country.emoji}
           />
         ))
       }
-  </div>
+  </CountriesContainer>
   )
 }

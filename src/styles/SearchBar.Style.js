@@ -4,6 +4,7 @@ export const SearchBarContainer = styled.div`
     display:flex;
     flex-direction:column;
     justify-content: center;
+    padding:15px;
 `
 
 export const Input = styled.input`

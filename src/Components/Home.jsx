@@ -6,6 +6,7 @@ import Continets from './Continents';
 import Languages from './Languages';
 import SearchBar from './SearchBar';
 import { countriesQuery } from '../countries/queryCountries';
+import { GroupContinent, H1 } from '../styles/Group.style';
 
 export default function Home() {
   const [input, setInput] = useState('')
@@ -61,16 +62,18 @@ export default function Home() {
             handleClick={handleClick}
             group={group}
           />
-          {
-            groupContinent.length ? groupContinent.map((elem,index) =>(
-              <div key={index}>
-                <h1>{elem[0].continent.name}</h1>
-                <Continets 
-                  allCountries={elem}
-                />
-              </div>
-            )) : <div></div>
-          }
+          <GroupContinent>
+            {
+              groupContinent.length ? groupContinent.map((elem,index) =>(
+                <div key={index}>
+                  <H1>{elem[0].continent.name}</H1>
+                  <Continets 
+                    allCountries={elem}
+                  />
+                </div>
+              )) : <div></div>
+            }
+          </GroupContinent>
         </div>
       )
     }else{
@@ -89,18 +92,18 @@ export default function Home() {
             handleClick={handleClick}
             group={group}
           />
-          <div>
+          <GroupContinent>
             {
               groupLanguages.length ? groupLanguages.map((elem,index) =>(
                 <div key={index}>
-                  <h1>{languages[index]}</h1>
+                  <H1>{languages[index]}</H1>
                   <Languages 
                     allCountries={elem}
                   />
                 </div>
               )) : <div></div>
             } 
-          </div>
+          </GroupContinent>
         </div>
       )
     }
