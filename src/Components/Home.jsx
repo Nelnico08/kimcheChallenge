@@ -59,6 +59,7 @@ export default function Home() {
             input={input}
             handleChange={handleChange}
             handleClick={handleClick}
+            group={group}
           />
           {
             groupContinent.length ? groupContinent.map((elem,index) =>(
@@ -86,6 +87,7 @@ export default function Home() {
             input={input}
             handleChange={handleChange}
             handleClick={handleClick}
+            group={group}
           />
           <div>
             {
