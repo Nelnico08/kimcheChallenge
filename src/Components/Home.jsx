@@ -1,31 +1,15 @@
 import React from 'react'
-import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Continets from './Continents';
 import Languages from './Languages';
-
-const countriesQuery = gql`
-  query {
-    countries {
-      code
-      name
-      capital
-      currency
-      continent{ 
-        name 
-      }
-      languages{ 
-        name 
-      }
-      emoji
-    }
-  }`
+import SearchBar from './SearchBar';
+import { countriesQuery } from '../countries/queryCountries';
 
 export default function Home() {
   const [input, setInput] = useState('')
-  const [search,setSearch] = useState([])
+  const [countrySearch,setcountrySearch] = useState([])
   const[countries,setCountries] = useState([])
   const[group,setGroup] = useState('continent')
   const {data, loading} = useQuery(countriesQuery)
@@ -34,7 +18,7 @@ export default function Home() {
     if(data && data.countries){
       setCountries(data.countries)
     }
-  },[countries, data, search, input])
+  },[countries, data, countrySearch, input])
 
   if(loading === true){
     return <p>Loading ...</p>
@@ -53,26 +37,29 @@ export default function Home() {
       const formatedStr = result.join(' ')
       setInput(formatedStr)
       if(e.target.value === ''){
-        setSearch([])
+        setcountrySearch([])
       }else{
-        setSearch(countries.filter(country => country.name.includes(e.target.value)))
+        setcountrySearch(countries.filter(country => country.name.includes(e.target.value)))
       }
     }
 
+    const handleClick = (event) => {
+      setGroup(event)
+    }
+
     if(group === 'continent'){
-      const continents = search.length ? [...new Set(search?.map(country => (country.continent.name)))] : ""
-      const groupContinent = search.length ? 
-        continents.map(cont => (search.filter(country => country.continent.name.includes(cont)))) :
+      const continents = countrySearch.length ? [...new Set(countrySearch?.map(country => (country.continent.name)))] : ""
+      const groupContinent = countrySearch.length ? 
+        continents.map(cont => (countrySearch.filter(country => country.continent.name.includes(cont)))) :
         []
   
       return(
         <div>
-          <input type='text' value={input} onChange={(e) => handleChange(e)}/>
-          <div>
-            <h3>Group by: </h3>
-            <button onClick={() => setGroup('continent')}>Continent</button>
-            <button onClick={() => setGroup('language')}>Language</button>
-          </div>
+          <SearchBar 
+            input={input}
+            handleChange={handleChange}
+            handleClick={handleClick}
+          />
           {
             groupContinent.length ? groupContinent.map((elem,index) =>(
               <div key={index}>
@@ -87,20 +74,19 @@ export default function Home() {
       )
     }else{
       const languages = [];
-      search.forEach(country => country.languages.forEach(language => {
+      countrySearch.forEach(country => country.languages.forEach(language => {
         if(!languages.includes(language.name)){
           languages.push(language.name)
         }
       }));
-      const groupLanguages = languages.map(language => (search.filter(country => country.languages.find(lang => lang.name === language))))
+      const groupLanguages = languages.map(language => (countrySearch.filter(country => country.languages.find(lang => lang.name === language))))
       return (
         <div>
-          <input type='text' value={input} onChange={(e) => handleChange(e)}/>
-          <div>
-            <h3>Group by: </h3>
-            <button onClick={() => setGroup('continent')}>Continent</button>
-            <button onClick={() => setGroup('language')}>Language</button>
-          </div>
+          <SearchBar 
+            input={input}
+            handleChange={handleChange}
+            handleClick={handleClick}
+          />
           <div>
             {
               groupLanguages.length ? groupLanguages.map((elem,index) =>(
