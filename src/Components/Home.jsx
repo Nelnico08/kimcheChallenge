@@ -7,6 +7,8 @@ import Languages from './Languages';
 import SearchBar from './SearchBar';
 import { countriesQuery } from '../countries/queryCountries';
 import { GroupContinent, H1 } from '../styles/Group.style';
+import loader from '../images/loadingWorld.gif'
+import { Loading } from '../styles/Loading.style';
 
 export default function Home() {
   const [input, setInput] = useState('')
@@ -22,7 +24,11 @@ export default function Home() {
   },[countries, data, countrySearch, input])
 
   if(loading === true){
-    return <p>Loading ...</p>
+    return (
+      <Loading>
+        <img src={loader} alt='Loading...'/>
+      </Loading>
+    )
   }
   if(data && data.countries){
 
